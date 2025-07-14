@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>よるとこナビ（YoruToko Navi）企画書</title>
+    <style>
+        body {
+            font-family: 'Arial', 'Hiragino Sans', 'Meiryo', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: float 10s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header .subtitle {
+            font-size: 1.2em;
+            margin-top: 10px;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 50px;
+            padding: 30px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            border-left: 5px solid #3498db;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            font-size: 1.8em;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .overview-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .overview-item h3 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+        
+        .persona-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .persona-table th {
+            background: #3498db;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        .persona-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .persona-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .revenue-chart {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        
+        .revenue-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .timeline {
+            position: relative;
+            margin-top: 20px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #3498db;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 70px;
+            margin-bottom: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 24px;
+            top: 20px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #3498db;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #3498db;
+        }
+        
+        .timeline-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .tag {
+            background: #3498db;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        
+        .differentiator {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            border-left: 4px solid #9b59b6;
+        }
+        
+        .differentiator h3 {
+            color: #9b59b6;
+            margin-bottom: 10px;
+        }
+        
+        .system-architecture {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .architecture-flow {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .architecture-item {
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px;
+            min-width: 120px;
+            text-align: center;
+            border: 2px solid #3498db;
+        }
+        
+        .arrow {
+            font-size: 2em;
+            color: #3498db;
+            margin: 0 10px;
+        }
+        
+        .compliance-list {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        
+        .compliance-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+        
+        .compliance-icon {
+            color: #27ae60;
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .overview-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .architecture-flow {
+                flex-direction: column;
+            }
+            
+            .arrow {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>よるとこナビ</h1>
+            <div class="subtitle">YoruToko Navi - 夜の街の新しい発見を</div>
+        </div>
+        
+        <div class="content">
+            <!-- 1. 概要 -->
+            <div class="section">
+                <h2>📋 1. 概要</h2>
+                <div class="overview-grid">
+                    <div class="overview-item">
+                        <h3>プロジェクト名</h3>
+                        <p>よるとこナビ（YoruToko Navi）</p>
+                    </div>
+                    <div class="overview-item">
+                        <h3>目的</h3>
+                        <p>スナック、Bar、カラオケBarなどの"寄り道したくなる夜の店"を検索できる健全な情報ポータルを構築し、多様な嗜好を持つユーザーと店舗の出会いを促進</p>
+                    </div>
+                    <div class="overview-item">
+                        <h3>コンセプト</h3>
+                        <p>「ちょっと立ち寄りたくなる、あたたかい夜の店を探せる場所」</p>
+                    </div>
+                    <div class="overview-item">
+                        <h3>形式</h3>
+                        <p>スマホ最適化Webポータル＋SNS連携</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 2. 背景・課題 -->
+            <div class="section">
+                <h2>⚠️ 2. 背景・課題</h2>
+                <div class="system-architecture">
+                    <h3>現在の市場における課題</h3>
+                    <div class="architecture-flow">
+                        <div class="architecture-item">
+                            <strong>既存サービス</strong><br>
+                            若年層・女性スタッフ偏重
+                        </div>
+                        <div class="arrow">→</div>
+                        <div class="architecture-item">
+                            <strong>ニーズギャップ</strong><br>
+                            嗜好特化型のニーズに<br>対応できていない
+                        </div>
+                        <div class="arrow">→</div>
+                        <div class="architecture-item">
+                            <strong>機会損失</strong><br>
+                            店舗の集客ロス<br>ユーザーの満足度低下
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 3. 差別化ポイント -->
+            <div class="section">
+                <h2>🎯 3. 差別化ポイント</h2>
+                <div class="differentiator">
+                    <h3>雰囲気＆嗜好特化の検索機能</h3>
+                    <p>「ふくよか」「包容力」「年上のお姉さん」「昭和の雰囲気」「癒し系」などのキーワードで店舗・スタッフをタグ検索</p>
+                </div>
+                <div class="differentiator">
+                    <h3>健全・安心設計</h3>
+                    <p>出会いや風俗を連想させる機能を排除し、紹介型コンテンツとSNS発信で安全性を確保</p>
+                </div>
+                <div class="differentiator">
+                    <h3>推し活・レビュー文化との融合</h3>
+                    <p>お気に入り登録・タグ投票・ランキング参加・ユーザーレビューなど"推し活"的導線を導入</p>
+                </div>
+            </div>
+            
+            <!-- 4. 主な機能 -->
+            <div class="section">
+                <h2>⚙️ 4. 主な機能</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">👥</div>
+                        <h3>ユーザー向け機能</h3>
+                        <ul style="text-align: left;">
+                            <li>店舗検索（エリア／ジャンル／雰囲気／嗜好タグ）</li>
+                            <li>スタッフプロフィール閲覧</li>
+                            <li>推し登録／ランキング投票</li>
+                            <li>GPS連携で近隣店舗表示</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏪</div>
+                        <h3>店舗向け機能</h3>
+                        <ul style="text-align: left;">
+                            <li>掲載申請（無料・有料）</li>
+                            <li>写真／紹介文／タグ管理</li>
+                            <li>SNS埋め込み・動画コンテンツ</li>
+                            <li>アクセス解析</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 5. ターゲットペルソナ -->
+            <div class="section">
+                <h2>🎯 5. ターゲットペルソナ</h2>
+                <table class="persona-table">
+                    <thead>
+                        <tr>
+                            <th>タイプ</th>
+                            <th>年齢</th>
+                            <th>特徴</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>一人飲み派</strong></td>
+                            <td>20〜60代</td>
+                            <td>癒し系・包容力を求める層。初見の店に入りづらい心理がある</td>
+                        </tr>
+                        <tr>
+                            <td><strong>推し活系フェチユーザー</strong></td>
+                            <td>20〜50代</td>
+                            <td>ふくよか、年上、会話好き等の嗜好を持ち、SNSやレビューに積極的</td>
+                        </tr>
+                        <tr>
+                            <td><strong>地元密着型店の経営者</strong></td>
+                            <td>30〜70代</td>
+                            <td>SNSやWebでの集客が不得意だが"常連以外"の集客に意欲的</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 6. 検索キーワード例 -->
+            <div class="section">
+                <h2>🔍 6. 検索キーワード例（嗜好・フェチ系）</h2>
+                <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    <h3>外見・印象</h3>
+                    <div class="tags">
+                        <span class="tag">#ふくよか</span>
+                        <span class="tag">#包容力</span>
+                        <span class="tag">#年上のお姉さん</span>
+                        <span class="tag">#おっとり系</span>
+                        <span class="tag">#落ち着き系</span>
+                    </div>
+                    
+                    <h3>雰囲気</h3>
+                    <div class="tags">
+                        <span class="tag">#昭和レトロ</span>
+                        <span class="tag">#癒し空間</span>
+                        <span class="tag">#静かに飲める</span>
+                        <span class="tag">#カウンター越し会話</span>
+                    </div>
+                    
+                    <h3>接客</h3>
+                    <div class="tags">
+                        <span class="tag">#聞き上手</span>
+                        <span class="tag">#会話が弾む</span>
+                        <span class="tag">#常連に優しい</span>
+                        <span class="tag">#初見でも安心</span>
+                    </div>
+                    
+                    <h3>サービス</h3>
+                    <div class="tags">
+                        <span class="tag">#チャージなし</span>
+                        <span class="tag">#飲み放題あり</span>
+                        <span class="tag">#一人客歓迎</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 7. 収益モデル -->
+            <div class="section">
+                <h2>💰 7. 収益モデル</h2>
+                <div class="revenue-chart">
+                    <div class="revenue-item">
+                        <div>
+                            <strong>掲載料</strong><br>
+                            <small>月額制プラン</small>
+                        </div>
+                        <div>3,000〜10,000円</div>
+                    </div>
+                    <div class="revenue-item">
+                        <div>
+                            <strong>特集記事</strong><br>
+                            <small>写真・インタビュー付き</small>
+                        </div>
+                        <div>20,000〜50,000円</div>
+                    </div>
+                    <div class="revenue-item">
+                        <div>
+                            <strong>ユーザー課金</strong><br>
+                            <small>推しスタッフ限定コンテンツ</small>
+                        </div>
+                        <div>月額980円〜</div>
+                    </div>
+                    <div class="revenue-item">
+                        <div>
+                            <strong>アフィリエイト</strong><br>
+                            <small>ウイスキーや関連商品</small>
+                        </div>
+                        <div>3〜10%成果報酬</div>
+                    </div>
+                    <div class="revenue-item">
+                        <div>
+                            <strong>イベント収益</strong><br>
+                            <small>コラボ飲み会、ファンイベント</small>
+                        </div>
+                        <div>3,000〜10,000円/回</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 8. 法規制・コンプライアンス対応 -->
+            <div class="section">
+                <h2>⚖️ 8. 法規制・コンプライアンス対応</h2>
+                <div class="compliance-list">
+                    <div class="compliance-item">
+                        <div class="compliance-icon">✅</div>
+                        <div>出会い系、異性紹介業に該当しない運営方針を明記</div>
+                    </div>
+                    <div class="compliance-item">
+                        <div class="compliance-icon">✅</div>
+                        <div>メッセージ機能／DM機能を設けない構成</div>
+                    </div>
+                    <div class="compliance-item">
+                        <div class="compliance-icon">✅</div>
+                        <div>写真・掲載文は全て店舗側承諾済みの情報に限定</div>
+                    </div>
+                    <div class="compliance-item">
+                        <div class="compliance-icon">✅</div>
+                        <div>プライバシーポリシー・利用規約を整備</div>
+                    </div>
+                    <div class="compliance-item">
+                        <div class="compliance-icon">✅</div>
+                        <div>性的表現は使用せず、健全な"紹介型メディア"として運営</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 9. 開発・運営スケジュール -->
+            <div class="section">
+                <h2>📅 9. 開発・運営スケジュール</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>企画・設計</h3>
+                            <p>UI設計、法務チェック</p>
+                            <strong>期間：1ヶ月</strong>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>開発</h3>
+                            <p>システム実装・スマホ最適化</p>
+                            <strong>期間：2〜3ヶ月</strong>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>テスト</h3>
+                            <p>先行掲載店舗での試験運用</p>
+                            <strong>期間：1ヶ月</strong>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <h3>正式リリース</h3>
+                            <p>本格リリース・広報展開</p>
+                            <strong>期間：1ヶ月目以降</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 10. 将来展望 -->
+            <div class="section">
+                <h2>🚀 10. 将来展望</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🗾</div>
+                        <h3>全国展開</h3>
+                        <p>地方スナックやBarを網羅した"夜の街地図"構築</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📰</div>
+                        <h3>オウンドメディア化</h3>
+                        <p>インタビュー、レビュー、コラムなど配信</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👤</div>
+                        <h3>セルフブランディング機能</h3>
+                        <p>スタッフ自ら投稿・発信できる仕組み</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🤖</div>
+                        <h3>AI レコメンド</h3>
+                        <p>フェチ・嗜好別レコメンド：AIによる検索補助導入</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎉</div>
+                        <h3>イベント連携</h3>
+                        <p>リアルイベント・Zoom交流などへの展開</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
